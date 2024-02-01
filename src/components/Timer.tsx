@@ -71,11 +71,25 @@ function Timer() {
         setIsRunning(true);
     }
 
+    function resume() {
+        setIsRunning(true);
+    }
+
+    function pause() {
+        setIsRunning(false);
+    }
+
+    function reset() {
+        setTime(0);
+        setInitiate(false);
+        setButtonDisabled(true);
+    }
+
     return (
         <>
             <main className="flex justify-center">
                 <div className="mockup-window bg-base-300 w-full xl:w-1/2">
-                    <div className="flex justify-center px-4 py-16 bg-base-300">
+                    <div className="flex justify-center px-4 py-16 bg-base-200">
                         <div className="flex flex-col items-center gap-4">
                             {initiate && (
                                 <>
@@ -83,17 +97,16 @@ function Timer() {
                                         {formattedTime()}
                                     </div>
                                     <span className="flex gap-4">
-                                        <button className="btn">Start</button>
                                         <button
                                             className="btn"
-                                            onClick={() => setIsRunning(false)}
+                                            onClick={resume}
                                         >
-                                            Stop
+                                            Resume
                                         </button>
-                                        <button
-                                            className="btn"
-                                            onClick={() => setTime(0)}
-                                        >
+                                        <button className="btn" onClick={pause}>
+                                            Pause
+                                        </button>
+                                        <button className="btn" onClick={reset}>
                                             Reset
                                         </button>
                                     </span>
