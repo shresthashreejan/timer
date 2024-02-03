@@ -26,9 +26,6 @@ jobs:
                   bun run build
                   ls -la ./dist
 
-            - name: List directory contents
-              run: ls -la
-
             - name: Upload Artifacts
               uses: actions/upload-artifact@v4
               with:
@@ -45,6 +42,15 @@ jobs:
             name: github-pages
             url: ${{ steps.deployment.outputs.page_url }}
         steps:
+            - name: Download Artifacts
+              uses: actions/download-artifact@v2
+              with:
+                  name: production-files
+                  path: ./dist
+
             - name: Deploy
               id: deployment
-              uses: actions/deploy-pages@v3
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./dist
