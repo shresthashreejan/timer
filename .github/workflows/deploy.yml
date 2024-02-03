@@ -5,7 +5,7 @@ on:
         branches: "main"
 
 jobs:
-    build_site:
+    build_app:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
@@ -25,8 +25,13 @@ jobs:
               run: |
                   bun run build
 
+            - name: Upload Artifacts
+              uses: actions/upload-pages-artifact@v1
+              with:
+                  path: "./build"
+
     deploy:
-        needs: build_site
+        needs: build_app
         runs-on: ubuntu-latest
         permissions:
             pages: write
