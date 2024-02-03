@@ -8,7 +8,16 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            # ... (other steps)
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Install Bun
+              uses: oven-sh/setup-bun@v1
+              with:
+                  bun-version: "latest"
+
+            - name: Install dependencies
+              run: bun install
 
             - name: build
               env:
@@ -33,6 +42,9 @@ jobs:
             name: github-pages
             url: ${{ steps.deployment.outputs.page_url }}
         steps:
+            - name: Delay to allow artifact processing
+              run: sleep 60
+
             - name: Download Artifacts
               uses: actions/download-artifact@v2
               with:
