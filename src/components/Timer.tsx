@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import useSound from "use-sound";
 import { motion } from "framer-motion";
 import Resonance from "../assets/sounds/Resonance.mp3";
