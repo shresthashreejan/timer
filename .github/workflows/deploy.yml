@@ -24,6 +24,7 @@ jobs:
                   BASE_PATH: "/timer"
               run: |
                   bun run build
+                  ls -la ./dist
 
             - name: List directory contents
               run: ls -la
