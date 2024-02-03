@@ -1,35 +1,58 @@
-name: Build and Deploy
+name: Deploy
 
 on:
     push:
-        branches:
-            - main
+        branches: "main"
 
 jobs:
-    build-and-deploy:
+    build:
         runs-on: ubuntu-latest
-
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
+            - name: Checkout
+              uses: actions/checkout@v3
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v2
+            - name: Install Bun
+              uses: oven-sh/setup-bun@v1
               with:
-                  node-version: 14
+                  bun-version: "latest"
 
             - name: Install dependencies
-              run: npm ci
+              run: bun install
 
-            - name: Build
-              run: npm run build
+            - name: build
+              env:
+                  BASE_PATH: "/timer"
+              run: |
+                  bun run build
+                  ls -la ./dist
 
             - name: List contents of dist directory
               run: ls -la ./dist || echo "Dist directory does not exist"
+
+            - name: Upload Artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: production-files
+                  path: ./dist
+
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+        permissions:
+            pages: write
+            id-token: write
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+            - name: Print working directory and dist path
+              run: |
+                  pwd
+                  ls -la $(pwd)/dist
 
             - name: Deploy to GitHub Pages
               uses: JamesIves/github-pages-deploy-action@4.1.5
               with:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   BRANCH: gh-pages
-                  FOLDER: dist
+                  FOLDER: ./dist
