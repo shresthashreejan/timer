@@ -42,14 +42,11 @@ jobs:
             name: github-pages
             url: ${{ steps.deployment.outputs.page_url }}
         steps:
-            - name: Delay to allow artifact processing
-              run: sleep 60
-
-            - name: Download Artifacts
-              uses: actions/download-artifact@v2
+            - name: Restore Cache
+              uses: actions/cache@v3
               with:
-                  name: production-files
                   path: ./dist
+                  key: ${{ runner.os }}-production-files-${{ hashFiles('./dist/**') }}
 
             - name: Deploy
               id: deployment
