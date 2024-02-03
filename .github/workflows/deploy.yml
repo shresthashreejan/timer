@@ -25,12 +25,6 @@ jobs:
               run: |
                   bun run build
 
-            - name: Upload Artifacts
-              uses: actions/upload-pages-artifact@v1
-              with:
-                  # this should match the `pages` option in your adapter-static options
-                  path: "build/"
-
     deploy:
         needs: build_site
         runs-on: ubuntu-latest
