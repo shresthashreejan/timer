@@ -42,6 +42,13 @@ jobs:
             name: github-pages
             url: ${{ steps.deployment.outputs.page_url }}
         steps:
+            - name: List Artifacts
+              run: |
+                  echo "::debug::Listing all artifacts..."
+                  curl \
+                   -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                   https://api.github.com/repos/${{ github.repository }}/actions/artifacts
+
             - name: Download Artifacts
               uses: actions/download-artifact@v2
               with:
