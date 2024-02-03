@@ -12,17 +12,35 @@ function Timer() {
     const hoursRef = useRef<HTMLInputElement>(null);
     const minutesRef = useRef<HTMLInputElement>(null);
     const secondsRef = useRef<HTMLInputElement>(null);
-    const [play, { stop }] = useSound(Resonance);
+    const [play, { stop }] = useSound(Resonance, { interrupt: true });
 
     const fadeInOutVariants = {
         initial: {
             opacity: 0,
+            x: -100,
+            transition: {
+                type: "spring",
+                stiffness: 260,
+                damping: 20,
+            },
         },
         animate: {
             opacity: 1,
+            x: 0,
+            transition: {
+                type: "spring",
+                stiffness: 260,
+                damping: 20,
+            },
         },
         exit: {
             opacity: 0,
+            x: -100,
+            transition: {
+                type: "spring",
+                stiffness: 260,
+                damping: 20,
+            },
         },
     };
 
