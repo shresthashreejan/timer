@@ -25,6 +25,9 @@ jobs:
               run: |
                   bun run build
 
+              - name: List directory contents
+                run: ls -la
+
             - name: Upload Artifacts
               uses: actions/upload-pages-artifact@v2.0.0
               with:
