@@ -1,5 +1,5 @@
 function ThemeToggle() {
-    let isDarkTheme = true;
+    let isDarkTheme = false;
 
     function toggleTheme() {
         isDarkTheme = !isDarkTheme;
