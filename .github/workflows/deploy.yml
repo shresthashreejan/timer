@@ -49,6 +49,9 @@ jobs:
                   name: production-files
                   path: ./dist
 
+            - name: Delay
+              run: sleep 60
+
             - name: Deploy
               id: deployment
               uses: actions/deploy-pages@v2
