@@ -40,6 +40,8 @@ jobs:
         environment:
             name: github-pages
             url: ${{ steps.deployment.outputs.page_url }}
+        if: github.ref == 'refs/heads/main'
+
         steps:
             - name: Download Artifacts
               uses: actions/download-artifact@v4
@@ -47,9 +49,8 @@ jobs:
                   name: production-files
                   path: ./dist
 
-            - name: Deploy to GitHub Pages
-              uses: JamesIves/github-pages-deploy-action@4.1.5
+            - name: Deploy
+              uses: peaceiris/actions-gh-pages@v3
               with:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  BRANCH: gh-pages
-                  FOLDER: ./dist
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./dist
