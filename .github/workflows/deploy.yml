@@ -51,6 +51,4 @@ jobs:
 
             - name: Deploy
               id: deployment
-              uses: actions/deploy-pages@v1
-              with:
-                  github_token: ${{ secrets.NEW_TOKEN }}
+              uses: actions/deploy-pages@v2
