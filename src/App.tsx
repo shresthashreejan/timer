@@ -7,6 +7,7 @@ function App() {
     return (
         <div className="p-4 overflow-x-hidden">
             <motion.div
+                className="mb-4"
                 initial={{ opacity: 0, x: -100 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{
