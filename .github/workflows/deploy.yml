@@ -49,8 +49,9 @@ jobs:
                   name: production-files
                   path: ./dist
 
-            - name: Deploy
-              uses: peaceiris/actions-gh-pages@v3
+            - name: Deploy to GitHub Pages
+              uses: JamesIves/github-pages-deploy-action@4.1.5
               with:
-                  github_token: ${{ secrets.NEW_TOKEN }}
-                  publish_dir: ./dist
+                  GITHUB_TOKEN: ${{ secrets.NEW_TOKEN }}
+                  BRANCH: gh-pages
+                  FOLDER: ./dist
