@@ -89,12 +89,27 @@ function Timer() {
     }
 
     const handleInputChange = () => {
-        const hasValue =
-            hoursRef.current?.value ||
-            minutesRef.current?.value ||
-            secondsRef.current?.value;
+        let hoursValue = 0;
+        let minutesValue = 0;
+        let secondsValue = 0;
+        let hasPositiveValue: boolean = false;
 
-        setButtonDisabled(!hasValue);
+        if (hoursRef.current?.value) {
+            hoursValue = parseInt(hoursRef.current?.value) || 0;
+        }
+        if (minutesRef.current?.value) {
+            minutesValue = parseInt(minutesRef.current?.value) || 0;
+        }
+        if (secondsRef.current?.value) {
+            secondsValue = parseInt(secondsRef.current?.value) || 0;
+        }
+
+        if (hoursValue >= 0 && minutesValue >= 0 && secondsValue >= 0) {
+            hasPositiveValue =
+                hoursValue > 0 || minutesValue > 0 || secondsValue > 0;
+        }
+
+        setButtonDisabled(!hasPositiveValue);
     };
 
     function setTimerValues() {
