@@ -1,10 +1,15 @@
 function Footer() {
     return (
-        <footer className="footer footer-center p-4 bottom-0">
+        <footer className="absolute bottom-0 py-4">
             <div>
                 <p className="italic">
                     developed by{" "}
-                    <a href="https://github.com/shresthashreejan">shreejan</a>
+                    <a
+                        href="https://github.com/shresthashreejan"
+                        target="_blank"
+                    >
+                        shreejan
+                    </a>
                 </p>
             </div>
         </footer>

@@ -137,7 +137,10 @@ function Timer() {
 
     return (
         <>
-            <main className="flex justify-center">
+            <main className="flex flex-col items-center">
+                <div className="my-8 text-6xl uppercase">
+                    <h1 className="flex justify-center">Timer</h1>
+                </div>
                 <div className="mockup-window bg-base-300 w-full xl:w-1/2">
                     <div className="flex justify-center px-4 py-16 bg-base-200">
                         <motion.div
@@ -154,7 +157,7 @@ function Timer() {
                                             type="number"
                                             id="hours"
                                             placeholder="HH"
-                                            className="input w-full"
+                                            className="input w-full focus:outline-none"
                                             ref={hoursRef}
                                             onChange={handleInputChange}
                                         />
@@ -162,7 +165,7 @@ function Timer() {
                                             type="number"
                                             id="minutes"
                                             placeholder="MM"
-                                            className="input w-full"
+                                            className="input w-full focus:outline-none"
                                             ref={minutesRef}
                                             onChange={handleInputChange}
                                         />
@@ -170,7 +173,7 @@ function Timer() {
                                             type="number"
                                             id="seconds"
                                             placeholder="SS"
-                                            className="input w-full"
+                                            className="input w-full focus:outline-none"
                                             ref={secondsRef}
                                             onChange={handleInputChange}
                                         />
