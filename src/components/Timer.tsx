@@ -45,23 +45,32 @@ function Timer() {
     };
 
     useEffect(() => {
-        let timerInterval: number | undefined;
+        let startTime = Date.now();
+        let endTime = startTime + time * 1000;
+        let animationFrameId: number | null = null;
+
+        const countdown = () => {
+            const now = Date.now();
+            const remainingTime = endTime - now;
+
+            if (remainingTime <= 0) {
+                setIsRunning(false);
+                setTime(0);
+            } else {
+                setTime(Math.ceil(remainingTime / 1000));
+                animationFrameId = requestAnimationFrame(countdown);
+            }
+        };
 
         if (isRunning && time > 0) {
-            timerInterval = setInterval(() => {
-                setTime((prevTime) => {
-                    if (prevTime > 0) {
-                        return prevTime - 1;
-                    } else {
-                        clearInterval(timerInterval);
-                        setIsRunning(false);
-                        return 0;
-                    }
-                });
-            }, 1000);
+            countdown();
         }
 
-        return () => clearInterval(timerInterval);
+        return () => {
+            if (animationFrameId !== null) {
+                cancelAnimationFrame(animationFrameId);
+            }
+        };
     }, [isRunning, time]);
 
     useEffect(() => {
