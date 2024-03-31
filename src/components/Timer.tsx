@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import useSound from "use-sound";
 import { motion } from "framer-motion";
 import Resonance from "../assets/sounds/Resonance.mp3";
+import EmptyLoop from "../assets/sounds/Empty_Loop.ogg";
 
 function Timer() {
     const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -13,6 +14,8 @@ function Timer() {
     const minutesRef = useRef<HTMLInputElement>(null);
     const secondsRef = useRef<HTMLInputElement>(null);
     const [play, { stop }] = useSound(Resonance, { interrupt: true });
+    const [playEmptyLoop, setPlayEmptyLoop] = useState<boolean>(false);
+    let audio: HTMLAudioElement | null = null;
 
     const fadeInOutVariants = {
         initial: {
@@ -44,33 +47,30 @@ function Timer() {
         },
     };
 
+    // Playing empty audio loop as a hack for optimizing js performance in the browser
     useEffect(() => {
-        let startTime = Date.now();
-        let endTime = startTime + time * 1000;
-        let animationFrameId: number | null = null;
-
-        const countdown = () => {
-            const now = Date.now();
-            const remainingTime = endTime - now;
-
-            if (remainingTime <= 0) {
-                setIsRunning(false);
-                setTime(0);
-            } else {
-                setTime(Math.ceil(remainingTime / 1000));
-                animationFrameId = requestAnimationFrame(countdown);
-            }
-        };
-
-        if (isRunning && time > 0) {
-            countdown();
-        }
-
+        audio = playEmptyAudio(playEmptyLoop);
         return () => {
-            if (animationFrameId !== null) {
-                cancelAnimationFrame(animationFrameId);
-            }
+            playEmptyAudio(false);
         };
+    }, [playEmptyLoop]);
+
+    useEffect(() => {
+        let timerInterval: number | undefined;
+        if (isRunning && time > 0) {
+            timerInterval = setInterval(() => {
+                setTime((prevTime) => {
+                    if (prevTime > 0) {
+                        return prevTime - 1;
+                    } else {
+                        clearInterval(timerInterval);
+                        setIsRunning(false);
+                        return 0;
+                    }
+                });
+            }, 1000);
+        }
+        return () => clearInterval(timerInterval);
     }, [isRunning, time]);
 
     useEffect(() => {
@@ -80,6 +80,21 @@ function Timer() {
             play();
         }
     }, [time, initiate]);
+
+    function playEmptyAudio(play: boolean): HTMLAudioElement | null {
+        if (play) {
+            const audio = new Audio(EmptyLoop);
+            audio.loop = true;
+            audio.play();
+            return audio;
+        } else {
+            if (audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+            return null;
+        }
+    }
 
     function formattedTime() {
         const hours = Math.floor(time / 3600);
@@ -131,6 +146,7 @@ function Timer() {
         setInitiate(true);
         setIsRunning(true);
         setIsEnd(false);
+        setPlayEmptyLoop(true);
     }
 
     function toggleTimer() {
@@ -141,6 +157,7 @@ function Timer() {
         setTime(0);
         setInitiate(false);
         setButtonDisabled(true);
+        setPlayEmptyLoop(false);
         stop();
     }
 
