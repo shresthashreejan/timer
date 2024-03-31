@@ -1,6 +1,6 @@
 function Footer() {
     return (
-        <footer className="absolute bottom-0 py-4 overflow-y-hidden">
+        <footer className="absolute bottom-0 py-4">
             <div>
                 <p className="italic">
                     developed by{" "}
