@@ -1,5 +1,5 @@
 # Timer
 Simple timer built with React and Typescript
 
-![image](https://github.com/shresthashreejan/timer/assets/79634187/8ecd42cc-6694-4890-8110-f98008e96cd6)
-![image](https://github.com/shresthashreejan/timer/assets/79634187/10539b99-f07f-4551-8382-e73bf91e2307)
+![image](https://github.com/shresthashreejan/timer/assets/79634187/f48f55cf-265a-41d9-aac4-e91f9b04c172)
+![image](https://github.com/shresthashreejan/timer/assets/79634187/24fee4d2-6290-45e5-8f2a-ae5d5dcd1ba7)
