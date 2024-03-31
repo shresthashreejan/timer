@@ -22,6 +22,7 @@ function App() {
                 </motion.div>
 
                 <motion.div
+                    className="mt-12 md:mt-0"
                     initial={{ opacity: 0, scale: 0 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{
