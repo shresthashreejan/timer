@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 function App() {
     return (
         <>
-            <div className="p-4 h-screen overflow-y-hidden">
+            <div className="p-4">
                 <motion.div
                     className="absolute top-4 right-4 overflow-hidden"
                     initial={{ opacity: 0, x: 100 }}
