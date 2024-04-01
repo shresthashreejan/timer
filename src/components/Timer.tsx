@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import useSound from "use-sound";
 import { motion } from "framer-motion";
 import Resonance from "../assets/sounds/Resonance.mp3";
-import EmptyLoop from "../assets/sounds/Empty_Loop.mp3";
+import EmptyLoop from "../assets/sounds/Empty_Loop.ogg";
 
 function Timer() {
     const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -85,7 +85,7 @@ function Timer() {
         if (play) {
             const audio = new Audio(EmptyLoop);
             audio.loop = true;
-            audio.volume = 0.5;
+            audio.volume = 0.6;
             audio.play();
             return audio;
         } else {
