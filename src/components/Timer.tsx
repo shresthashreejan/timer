@@ -85,6 +85,7 @@ function Timer() {
         if (play) {
             const audio = new Audio(EmptyLoop);
             audio.loop = true;
+            audio.volume = 0.01;
             audio.play();
             return audio;
         } else {
