@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import useSound from "use-sound";
 import { motion } from "framer-motion";
 import Resonance from "../assets/sounds/Resonance.mp3";
-import EmptyLoop from "../assets/sounds/Empty_Loop.ogg";
+import RainSounds from "../assets/sounds/Rain.ogg";
 
 function Timer() {
     const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -14,8 +14,8 @@ function Timer() {
     const minutesRef = useRef<HTMLInputElement>(null);
     const secondsRef = useRef<HTMLInputElement>(null);
     const [play, { stop }] = useSound(Resonance, { interrupt: true });
-    const [playEmptyLoop, setPlayEmptyLoop] = useState<boolean>(false);
-    let audio: HTMLAudioElement | null = null;
+    const [playRainSounds, setPlayRainSounds] = useState<boolean>(false);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
 
     const fadeInOutVariants = {
         initial: {
@@ -47,13 +47,10 @@ function Timer() {
         },
     };
 
-    // Playing empty audio loop as a hack for optimizing js performance in the browser
+    // Playing audio loop as a hack for optimizing js performance in the browser
     useEffect(() => {
-        audio = playEmptyAudio(playEmptyLoop);
-        return () => {
-            playEmptyAudio(false);
-        };
-    }, [playEmptyLoop]);
+        audioRef.current = playRainLoop(playRainSounds);
+    }, [playRainSounds]);
 
     useEffect(() => {
         let timerInterval: number | undefined;
@@ -81,17 +78,17 @@ function Timer() {
         }
     }, [time, initiate]);
 
-    function playEmptyAudio(play: boolean): HTMLAudioElement | null {
+    function playRainLoop(play: boolean): HTMLAudioElement | null {
         if (play) {
-            const audio = new Audio(EmptyLoop);
+            const audio = new Audio(RainSounds);
             audio.loop = true;
-            audio.volume = 0.6;
+            audio.volume = 0.5;
             audio.play();
             return audio;
         } else {
-            if (audio) {
-                audio.pause();
-                audio.currentTime = 0;
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
             }
             return null;
         }
@@ -147,18 +144,19 @@ function Timer() {
         setInitiate(true);
         setIsRunning(true);
         setIsEnd(false);
-        setPlayEmptyLoop(true);
+        setPlayRainSounds(true);
     }
 
     function toggleTimer() {
         setIsRunning((prevState) => !prevState);
+        setPlayRainSounds((prevState) => !prevState);
     }
 
     function reset() {
         setTime(0);
         setInitiate(false);
         setButtonDisabled(true);
-        setPlayEmptyLoop(false);
+        setPlayRainSounds(false);
         stop();
     }
 
