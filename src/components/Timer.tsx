@@ -16,6 +16,7 @@ function Timer() {
     const [play, { stop }] = useSound(Resonance, { interrupt: true });
     const [playRainSounds, setPlayRainSounds] = useState<boolean>(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const [isBlinking, setIsBlinking] = useState<boolean>(false);
 
     const fadeInOutVariants = {
         initial: {
@@ -53,6 +54,10 @@ function Timer() {
     }, [playRainSounds]);
 
     useEffect(() => {
+        document.title = isBlinking ? "Session complete!" : formattedTime();
+    }, [time, isBlinking]);
+
+    useEffect(() => {
         let timerInterval: number | undefined;
         if (isRunning && time > 0) {
             timerInterval = setInterval(() => {
@@ -75,8 +80,21 @@ function Timer() {
             setIsRunning(false);
             setIsEnd(true);
             play();
+            setIsBlinking(true);
+            const blinkInterval = setInterval(() => {
+                setIsBlinking((prev) => !prev);
+            }, 1000);
+            return () => clearInterval(blinkInterval);
+        } else {
+            setIsBlinking(false);
         }
     }, [time, initiate]);
+
+    useEffect(() => {
+        if (!initiate) {
+            document.title = "Timer.";
+        }
+    }, [initiate]);
 
     function playRainLoop(play: boolean): HTMLAudioElement | null {
         if (play) {
