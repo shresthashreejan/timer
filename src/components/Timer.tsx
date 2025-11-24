@@ -17,6 +17,7 @@ function Timer() {
     const [playRainSounds, setPlayRainSounds] = useState<boolean>(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [isBlinking, setIsBlinking] = useState<boolean>(false);
+    const [muted, setMuted] = useState<boolean>(false);
 
     const fadeInOutVariants = {
         initial: {
@@ -95,6 +96,12 @@ function Timer() {
             document.title = "Timer.";
         }
     }, [initiate]);
+
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.volume = muted ? 0 : 0.5;
+        }
+    }, [muted]);
 
     function playRainLoop(play: boolean): HTMLAudioElement | null {
         if (play) {
@@ -178,6 +185,10 @@ function Timer() {
         stop();
     }
 
+    function mute() {
+        setMuted(!muted);
+    }
+
     return (
         <>
             <main className="flex flex-col items-center">
@@ -255,6 +266,10 @@ function Timer() {
 
                                         <button className="btn" onClick={reset}>
                                             Reset
+                                        </button>
+
+                                        <button className="btn" onClick={mute}>
+                                            {muted ? "Unmute" : "Mute"}
                                         </button>
                                     </span>
                                 </>
