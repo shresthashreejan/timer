@@ -107,7 +107,7 @@ function Timer() {
         if (play) {
             const audio = new Audio(RainSounds);
             audio.loop = true;
-            audio.volume = 0.5;
+            audio.volume = muted ? 0 : 0.5;
             audio.play();
             return audio;
         } else {
